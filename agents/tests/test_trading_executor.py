@@ -72,8 +72,8 @@ def test_update_position():
         "position_id": position_info["position_id"],
         "action": "modify",
         "updates": {
-            "ticker": "AAPL",
-            "quantity": 50,
+        "ticker": "AAPL",
+        "quantity": 50,
             "price": 155.0
         }
     }

@@ -97,8 +97,8 @@ class TradingExecutor:
     def _update_position_pnl(self, position: Position):
         """포지션 손익 업데이트"""
         if position.status == PositionStatus.OPEN:
-            # 미실현 손익 계산
-            if position.side == PositionSide.LONG:
+        # 미실현 손익 계산
+        if position.side == PositionSide.LONG:
                 position.unrealized_pnl = (position.current_price - position.entry_price) * position.quantity
             else:
                 position.unrealized_pnl = (position.entry_price - position.current_price) * position.quantity
@@ -141,17 +141,17 @@ class TradingExecutor:
         """주문 유효성 검증"""
         try:
             if order.quantity <= 0:
-                return False
-                
+            return False
+        
             if order.order_type == OrderType.LIMIT:
                 if order.price is None or order.price <= 0:
-                    return False
-                    
+            return False
+            
             if order.order_type == OrderType.STOP:
                 if order.stop_price is None or order.stop_price <= 0:
-                    return False
-                    
-            return True
+            return False
+            
+        return True
             
         except Exception:
             return False
@@ -228,9 +228,9 @@ class TradingExecutor:
         try:
             positions = []
             total_value = self.cash_balance
-            
+        
             # 포지션 정보 업데이트
-            for position in self.positions.values():
+        for position in self.positions.values():
                 if position.status == "open":
                     # 현재 가격 업데이트
                     current_price = self._get_current_price(position.ticker)
@@ -241,7 +241,7 @@ class TradingExecutor:
                     
                     # 포지션 가치 계산
                     position_value = position.quantity * position.current_price
-                    total_value += position_value
+            total_value += position_value
                     
                     positions.append(position)
             
@@ -291,10 +291,10 @@ class TradingExecutor:
         
         if position is None:
             # 새 포지션 생성
-            position = Position(
+        position = Position(
                 position_id=str(uuid.uuid4()),
-                ticker=order.ticker,
-                quantity=order.quantity,
+            ticker=order.ticker,
+            quantity=order.quantity,
                 entry_price=execution_price,
                 current_price=execution_price,
                 side=order.side,
@@ -327,7 +327,7 @@ class TradingExecutor:
             position.timestamp = datetime.now()
             
         return position
-
+            
     def _create_position_info(self, position: Position) -> dict:
         """포지션 정보 생성"""
         return {
@@ -369,14 +369,14 @@ class TradingExecutor:
                 position.ticker = request.updates["ticker"]
                 
             self._update_position_pnl(position)
-            
+                    
             return PositionUpdateResponse(
                 request_id=str(uuid.uuid4()),
                 status="success",
                 message="Position updated successfully",
                 position=position
             )
-
+            
         except Exception as e:
             return PositionUpdateResponse(
                 request_id=str(uuid.uuid4()),

@@ -35,4 +35,4 @@ def generate_test_market_data() -> List[MarketData]:
             close=101.0 + i,
             volume=1000000 + i * 1000
         ))
-    return data 
+    return data

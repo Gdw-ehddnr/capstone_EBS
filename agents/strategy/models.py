@@ -15,6 +15,8 @@ class StrategyType(str, Enum):
     BREAKOUT = "breakout"
     STATISTICAL_ARBITRAGE = "statistical_arbitrage"
     MACHINE_LEARNING = "machine_learning"
+    VALUE = "value"
+    GROWTH = "growth"
 
 class MarketCondition(BaseModel):
     market_trend: str
@@ -86,4 +88,21 @@ class StrategyResponse(BaseModel):
             "time_horizon": self.time_horizon.value,
             "explanation": self.explanation,
             "sector_allocation": self.sector_allocation or {}
-        } 
+        }
+
+class FundamentalIndicators(BaseModel):
+    pbr: float
+    per: float
+    dividend_yield: float
+    debt_ratio: float
+    revenue_growth: float
+    operating_profit_growth: float
+    roe: float
+    last_updated: datetime
+
+class FundamentalAnalysis(BaseModel):
+    value_score: float
+    growth_score: float
+    analysis_summary: str
+    recommendation: str
+    confidence: float 

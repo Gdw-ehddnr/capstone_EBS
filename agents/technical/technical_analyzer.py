@@ -1235,6 +1235,19 @@ class TechnicalAnalyzer:
 
     def debate(self, context, others_opinions, my_opinion_1st_round=None):
         analysis = self.analyze(context['symbol'], context.get('period', '1y'))
+        
+        # 분석 결과가 None인 경우 기본값 반환
+        if analysis is None:
+            return {
+                "agent": "technical_analyzer",
+                "분야": "기술적분석",
+                "핵심지표": {},
+                "주장": "데이터 수집 실패로 인해 기술적 분석을 수행할 수 없습니다.",
+                "추천": "HOLD",
+                "신뢰도": 0.0,
+                "전문가설명": "현재 데이터 수집에 문제가 있어 기술적 분석을 수행할 수 없습니다. 나중에 다시 시도해주세요."
+            }
+            
         indicators = analysis.get('indicators', {})
         rsi = indicators.get('rsi')
         macd = indicators.get('macd')

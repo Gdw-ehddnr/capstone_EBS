@@ -195,7 +195,14 @@ class SystemManager:
                         tech = self.technical_analyzer.analyze(symbol, retry_count=5)
                     except TypeError:
                         tech = self.technical_analyzer.analyze(symbol)
-                    if not tech or not isinstance(tech, dict) or tech.get('raw_data') is None or tech.get('raw_data').empty:
+                    if (
+                        not tech
+                        or not isinstance(tech, dict)
+                        or 'raw_data' not in tech
+                        or tech['raw_data'] is None
+                        or not isinstance(tech['raw_data'], pd.DataFrame)
+                        or tech['raw_data'].empty
+                    ):
                         self.logger.warning(f"[{symbol}] 기술적 분석 실패 또는 데이터 없음. 이후 분석 건너뜀.")
                         continue
                     self.logger.info(f"[{symbol}] 기술적 분석 완료")
